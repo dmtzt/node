@@ -1,3 +1,11 @@
 Path
 Static files
+    express.use(express.static('public'))
 API vs SSR
+API
+    params
+    query
+        - Either filter data based on query or return all data
+    additional info
+        - Only one response per request
+        - Use return if using conditionals to select a response
