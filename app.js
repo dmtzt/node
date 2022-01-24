@@ -1,13 +1,22 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+const logger  = require('./logger')
+const authorize = require('./authorize')
 const port = 3000
 const {products} = require('./data')
 
 // app.use(express.static('public'))
+// app.use('/api', logger)
+app.use([authorize, logger])
+
 
 app.get('/', (req, res) => {
-    res.send('<h1>Home Page</h1><a href="/api/products">Products</a>')
+    res.send('Home')
+})
+
+app.get('/about', (req, res) => {
+    res.send('About')
 })
 
 app.get('/api/products', (req, res) => {
