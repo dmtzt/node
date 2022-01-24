@@ -1,22 +1,47 @@
 const express = require('express')
 const path = require('path')
 const app = express()
-const logger  = require('./logger')
-const authorize = require('./authorize')
+const morgan = require('morgan')
+// const logger  = require('./logger')
+// const authorize = require('./authorize')
 const port = 3000
 const {products} = require('./data')
+let {people} = require('./data')
 
-// app.use(express.static('public'))
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 // app.use('/api', logger)
-app.use([authorize, logger])
+// app.use([authorize, logger])
+app.use(morgan('tiny'))
 
 
-app.get('/', (req, res) => {
-    res.send('Home')
-})
+// app.get('/', (req, res) => {
+//     res.send('Home')
+// })
 
 app.get('/about', (req, res) => {
     res.send('About')
+})
+
+app.get('/api/people', (req, res) => {
+    res.status(200).json({success: true, data: people})
+})
+
+app.post('/api/people', (req, res) => {
+    const {name} = req.body
+    if (!name)
+        return res.status(400).json({success:false, msg:'please provide name value'})
+    else
+        res.status(201).send({success: true, person: name})
+})
+
+app.post('/login', (req, res) => {
+    const {name} = req.body
+    if (name)
+        return res.status(200).send(`Welcome, ${name}`)
+    else
+        return res.status(401).send('Please provide credentials')
 })
 
 app.get('/api/products', (req, res) => {

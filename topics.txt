@@ -16,3 +16,6 @@ API
             - Order matters! Place them at the top, then route methods
             - It can include a path to apply middleware to all subroutes
             - Multiple middleware functions [<>, <>]
+    morgan
+    post
+        express.urlencoded({ extended: false })
